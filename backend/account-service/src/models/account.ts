@@ -3,5 +3,6 @@ export interface IAccount{
   name: string,
   email: string,
   password: string,
-  status: number
+  status: number,
+  domain: string
 }
