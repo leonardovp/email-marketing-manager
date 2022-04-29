@@ -67,4 +67,10 @@ async function updateAccount(id: number, account: IAccount){
   throw new Error(`Account not found.`);
 }
 
-export default {findAll, findById, addAccount, updateAccount};
+
+
+function findByEmail(emailParam: string) {
+  return repository.findOne<AccountModel>({ where: { email: emailParam } });
+}
+
+export default {findAll, findById, addAccount, updateAccount, findByEmail};
