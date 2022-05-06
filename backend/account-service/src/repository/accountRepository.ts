@@ -1,53 +1,13 @@
-import Sequelize, {Model, Optional} from 'sequelize';
-import database from '../db';
+import Sequelize, {Model, Optional, DestroyOptions} from 'sequelize';
 import { IAccount } from '../models/account';
-
-interface AccountCreationAttributes extends Optional<IAccount, "id">{}
-
-export interface AccountModel extends Model<IAccount, AccountCreationAttributes>, IAccount{}
-
-const repository = database.define<AccountModel>('tb_account', {
-  id:{
-    type: Sequelize.INTEGER.UNSIGNED,
-    primaryKey: true,
-    autoIncrement: true,
-    allowNull: false
-  },
-
-  name:{
-    type: Sequelize.STRING(200),
-    allowNull: false
-  },
-
-  email:{
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true
-  },
-
-  password:{
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-  ,
-  status:{
-    type: Sequelize.SMALLINT.UNSIGNED,
-    allowNull: false,
-    defaultValue: 100
-  },
-
-  domain:{
-    type: Sequelize.STRING,
-    allowNull: true,
-  }
-}) 
+import repository, {IAccountModel} from './accountModel'
 
 function findAll(){
-  return repository.findAll<AccountModel>();
+  return repository.findAll<IAccountModel>();
 }
 
 function findById (id: number){
-  return repository.findByPk<AccountModel>(id);
+  return repository.findByPk<IAccountModel>(id);
 }
 
 function addAccount(account: IAccount){
@@ -55,7 +15,7 @@ function addAccount(account: IAccount){
 }
 
 async function updateAccount(id: number, account: IAccount){
-  const originalAccount = await repository.findByPk<AccountModel>(id);
+  const originalAccount = await repository.findByPk<IAccountModel>(id);
   if(originalAccount != null){
       originalAccount.name = account.name;      
       originalAccount.password = account.password;     
@@ -67,10 +27,17 @@ async function updateAccount(id: number, account: IAccount){
   throw new Error(`Account not found.`);
 }
 
-
-
 function findByEmail(emailParam: string) {
-  return repository.findOne<AccountModel>({ where: { email: emailParam } });
+  return repository.findOne<IAccountModel>({ where: { email: emailParam } });
 }
+
+function remove(id: number){
+  return repository.destroy({where: {id: id}} as DestroyOptions<IAccount>);
+}
+
+function removeByEmail(email: string){
+  return repository.destroy({where: {email: email}} as DestroyOptions<IAccount>);
+}
+
 
 export default {findAll, findById, addAccount, updateAccount, findByEmail};

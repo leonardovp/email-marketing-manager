@@ -1,5 +1,5 @@
 import app from './app'
-import dataBase from './db'
+import dataBase from 'ms-commons/data/db'
 
 (async () => {
 
@@ -16,6 +16,3 @@ try {
   
 }
 })();
-
-
-
