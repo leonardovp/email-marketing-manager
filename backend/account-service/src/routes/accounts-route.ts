@@ -5,16 +5,16 @@ import middlewareCommon from 'ms-commons/api/routes/middlewares'
 
 const router = Router();
 
-router.get('/accounts/', middlewareCommon.validateAuth, accountsController.getAccounts);
+router.get('/accounts/', middlewareCommon.validateAccountAuth, accountsController.getAccounts);
 
-router.get('/accounts/:id', middlewareCommon.validateAuth, accountsController.getAccountID);
+router.get('/accounts/:id', middlewareCommon.validateAccountAuth, accountsController.getAccountID);
 
-router.patch('/accounts/:id', middlewareCommon.validateAuth, validadeAccoountSchema, accountsController.updateAccount);
+router.patch('/accounts/:id', middlewareCommon.validateAccountAuth, validadeAccoountSchema, accountsController.updateAccount);
 
 router.post('/accounts/', validadeAccoountSchema, accountsController.addAccount);
 
 router.post('/accounts/login', validadeLoginSchema, accountsController.loginAccount);
 
-router.post('/accounts/logout', middlewareCommon.validateAuth, accountsController.logoutAccount);
+router.post('/accounts/logout', middlewareCommon.validateAccountAuth, accountsController.logoutAccount);
 
 export default router;
