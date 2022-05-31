@@ -6,7 +6,7 @@ interface IContactCreationAttributes extends Optional<IContact, "id">{}
 
 export interface IContactModel extends Model<IContact, IContactCreationAttributes>, IContact {}
 
-const Contact = database.define<IContactModel>('contact', {
+const Contact = database.define<IContactModel>('tb_contact', {
    id: {
        type: Sequelize.INTEGER.UNSIGNED,
        primaryKey: true,
