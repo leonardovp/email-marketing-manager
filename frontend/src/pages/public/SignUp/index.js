@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,20 +11,63 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import MuiAlert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Snackbar from '@mui/material/Snackbar';
+
 
 import {Link as RouterLink} from 'react-router-dom';
 
-class SignUp extends React.Component{
+class SignUp extends React.Component {
+
+  constructor(props){
+    super(props);
+    
+    this.state = {
+      name: '',
+      email: '',
+      domain: '',
+      password: '',
+      error: '',
+      isLoading: false,
+      openAlert: false,
+    }     
+  } 
+
+  setOpenAlert = (openAlert) =>{
+    this.setState({ openAlert });
+  }
 
   handleSignUp = async (event) => {
+   
     event.preventDefault();
+
+    const {name, email, domain, password, isLoading} = this.state; 
+
+    if(!name){      
+      await this.setOpenAlert(true);
+      await this.setState({error: "Informe todos os campos para se cadastrar"});  
+      //console.log(this.state.openAlert);   
+    }
+  }
+
+  handleClose = () => { 
+    this.setOpenAlert(false);    
   }
 
 render(){
-  return(
 
-    <Container component="main" maxWidth="xs">
-    <CssBaseline />
+  return(  
+    <>
+
+    <Snackbar open={this.state.openAlert} autoHideDuration={5000} onClose={this.handleClose} anchorOrigin={{vertical: "top", horizontal: "center"}}>
+      <MuiAlert onClose={this.handleClose} severity="error" sx={{ width: '100%' }} elevation={6} variant="filled">
+        {this.state.error}
+      </MuiAlert>
+    </Snackbar>  
+   
+    <Container component="main" maxWidth="xs">    
+    <CssBaseline />   
     <Box
       sx={{
         marginTop: 8,
@@ -50,6 +93,7 @@ render(){
               id="name"
               label="Name"
               autoFocus
+              onChange={e => this.setState({ name: e.target.value})}          
             />
           </Grid>        
           <Grid item xs={12}>
@@ -108,9 +152,11 @@ render(){
       </Box>
     </Box>    
   </Container>
-
+  </> 
   )
-}
+
+  }
+
 
 }
 
