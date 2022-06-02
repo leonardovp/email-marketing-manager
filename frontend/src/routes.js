@@ -6,12 +6,14 @@ import {
   Link,
   useParams,
 } from 'react-router-dom'
+import SignIn from './pages/public/SignIn'
+import SignUp from './pages/public/SignUp'
 
 function Home(){
   return(
     <div>
       <Menu /> 
-      <h2>Dasboard</h2>
+      <h2>Dasboard</h2>     
     </div>
   )
 }
@@ -58,22 +60,6 @@ function Contact(){
 
   )
 
-}
-
-function Signin(){
-  return(
-    <div>
-      <h2>Login</h2>
-    </div>
-  )
-}
-
-function Signup(){
-  return(
-    <div>     
-      <h2>Cadastro</h2>
-    </div>
-  )
 }
 
 function Messages(){ 
@@ -134,8 +120,8 @@ export default function Rotas(){
         <Route index element={<Home />} />
         <Route path='contacts/*' element={<Contacts />} />
         <Route path='messages/*' element={<Messages />} />
-        <Route path='signin' element={<Signin />} />
-        <Route path='signup' element={<Signup />} />
+        <Route path='signin' element={<SignIn />} />
+        <Route path='signup' element={<SignUp />} />
       </Routes>
       </BrowserRouter>
     
