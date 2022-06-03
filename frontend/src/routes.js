@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import SignIn from './pages/public/SignIn'
 import SignUp from './pages/public/SignUp'
+import Display from './pages/public/__Common__/display'
 
 function Home(){
   return(
@@ -122,6 +123,7 @@ export default function Rotas(){
         <Route path='messages/*' element={<Messages />} />
         <Route path='signin' element={<SignIn />} />
         <Route path='signup' element={<SignUp />} />
+        <Route path='display' element={<Display />} />
       </Routes>
       </BrowserRouter>
     

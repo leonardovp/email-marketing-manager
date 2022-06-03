@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,60 +11,64 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import MuiAlert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Snackbar from '@mui/material/Snackbar';
 
+import Alert from '../__Common__/alert';
+import {Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
+import api from '../../../services/api';
 
-import {Link as RouterLink} from 'react-router-dom';
+function SignUp() {
 
-class SignUp extends React.Component {
+  let navigate = useNavigate();
 
-  constructor(props){
-    super(props);
-    
-    this.state = {
-      name: '',
-      email: '',
-      domain: '',
-      password: '',
-      error: '',
-      isLoading: false,
-      openAlert: false,
-    }     
-  } 
+  const state = {
+    name: '',
+    email: '',
+    domain: '',
+    password: '',
+    error: '',
+    isLoading: false,    
+  }   
 
-  setOpenAlert = (openAlert) =>{
-    this.setState({ openAlert });
-  }
+  const [mostraAlerta, setMostraAlerta] = useState(false);
+  const [mensagemAlerta, setMensagemAlerta] = useState('');
 
-  handleSignUp = async (event) => {
+  async function handleSignUp(event) {
    
     event.preventDefault();
 
-    const {name, email, domain, password, isLoading} = this.state; 
+    const {name, email, domain, password, isLoading} = state; 
 
-    if(!name){      
-      await this.setOpenAlert(true);
-      await this.setState({error: "Informe todos os campos para se cadastrar"});  
-      //console.log(this.state.openAlert);   
+    const data = new FormData(event.currentTarget);
+   
+    state.name =  data.get('name')
+    state.email =  data.get('email')
+    state.domain =  data.get('domain')
+    state.password = data.get('password') 
+
+    if(!state.name || !state.email || !state.domain || !state.password){
+
+      setMostraAlerta(true);
+      setMensagemAlerta('Informe todos os campos para se cadastrar');  
+
+    }else{
+      try {
+       
+         navigate('/signin');
+
+      } catch (error) {
+        
+        setMostraAlerta(true);
+        setMensagemAlerta(`Erro de cadastro: ${error}`);
+
+      }
+
     }
   }
 
-  handleClose = () => { 
-    this.setOpenAlert(false);    
-  }
-
-render(){
-
   return(  
     <>
-
-    <Snackbar open={this.state.openAlert} autoHideDuration={5000} onClose={this.handleClose} anchorOrigin={{vertical: "top", horizontal: "center"}}>
-      <MuiAlert onClose={this.handleClose} severity="error" sx={{ width: '100%' }} elevation={6} variant="filled">
-        {this.state.error}
-      </MuiAlert>
-    </Snackbar>  
+   <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity="error" setMostraAlerta={setMostraAlerta}/>
+ 
    
     <Container component="main" maxWidth="xs">    
     <CssBaseline />   
@@ -82,7 +86,7 @@ render(){
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <Box component="form" noValidate onSubmit={this.handleSignUp} sx={{ mt: 3 }}>
+      <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -92,8 +96,7 @@ render(){
               fullWidth
               id="name"
               label="Name"
-              autoFocus
-              onChange={e => this.setState({ name: e.target.value})}          
+              autoFocus                       
             />
           </Grid>        
           <Grid item xs={12}>
@@ -103,7 +106,7 @@ render(){
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
+              autoComplete="email"              
             />
           </Grid>
           <Grid item xs={12}>
@@ -113,7 +116,7 @@ render(){
               id="domain"
               label="Domain Name"
               name="domain"
-              autoComplete="domain"
+              autoComplete="domain"              
             />
           </Grid>
           <Grid item xs={12}>
@@ -124,7 +127,7 @@ render(){
               label="Password"
               type="password"
               id="password"
-              autoComplete="new-password"
+              autoComplete="new-password"              
             />
           </Grid>
           <Grid item xs={12}>
@@ -152,11 +155,9 @@ render(){
       </Box>
     </Box>    
   </Container>
+  
   </> 
   )
-
-  }
-
 
 }
 
