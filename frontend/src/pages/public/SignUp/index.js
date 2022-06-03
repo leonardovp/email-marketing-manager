@@ -13,51 +13,45 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import Alert from '../__Common__/alert';
-import {Link as RouterLink, Navigate, useNavigate } from 'react-router-dom';
+import {Link as RouterLink, useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
 
-function SignUp() {
+const SignUp = () => {
 
   let navigate = useNavigate();
 
-  const state = {
-    name: '',
-    email: '',
-    domain: '',
-    password: '',
-    error: '',
-    isLoading: false,    
-  }   
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [domain, setDomain] = useState('');
+  const [password, setPassword] = useState('');
 
   const [mostraAlerta, setMostraAlerta] = useState(false);
   const [mensagemAlerta, setMensagemAlerta] = useState('');
+  const [severity, setSeverity] = useState('info');
 
-  async function handleSignUp(event) {
+  const handleSignUp = async (event) => { 
    
-    event.preventDefault();
+    event.preventDefault(); 
 
-    const {name, email, domain, password, isLoading} = state; 
-
-    const data = new FormData(event.currentTarget);
-   
-    state.name =  data.get('name')
-    state.email =  data.get('email')
-    state.domain =  data.get('domain')
-    state.password = data.get('password') 
-
-    if(!state.name || !state.email || !state.domain || !state.password){
+    if(!name || !email || !domain || !password){
 
       setMostraAlerta(true);
+      setSeverity("warning");
       setMensagemAlerta('Informe todos os campos para se cadastrar');  
 
     }else{
       try {
+	  
+	    /*await api.post('accounts', {
+          name, email, domain, password
+        });*/
        
          navigate('/signin');
 
       } catch (error) {
         
         setMostraAlerta(true);
+        setSeverity("error");
         setMensagemAlerta(`Erro de cadastro: ${error}`);
 
       }
@@ -67,7 +61,7 @@ function SignUp() {
 
   return(  
     <>
-   <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity="error" setMostraAlerta={setMostraAlerta}/>
+   <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
  
    
     <Container component="main" maxWidth="xs">    
@@ -96,7 +90,8 @@ function SignUp() {
               fullWidth
               id="name"
               label="Name"
-              autoFocus                       
+              autoFocus
+              onChange={event => setName(event.target.value)}                   
             />
           </Grid>        
           <Grid item xs={12}>
@@ -106,7 +101,8 @@ function SignUp() {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"              
+              autoComplete="email"
+              onChange={event => setEmail(event.target.value)}             
             />
           </Grid>
           <Grid item xs={12}>
@@ -116,7 +112,8 @@ function SignUp() {
               id="domain"
               label="Domain Name"
               name="domain"
-              autoComplete="domain"              
+              autoComplete="domain"
+              onChange={event => setDomain(event.target.value)}               
             />
           </Grid>
           <Grid item xs={12}>
@@ -127,7 +124,8 @@ function SignUp() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="new-password"              
+              autoComplete="new-password"
+              onChange={event => setPassword(event.target.value)}               
             />
           </Grid>
           <Grid item xs={12}>

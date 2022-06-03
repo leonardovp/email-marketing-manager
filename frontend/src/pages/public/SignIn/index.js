@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,19 +10,62 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import {Link as RouterLink} from 'react-router-dom';
+import Alert from '../__Common__/alert';
+import {Link as RouterLink, useNavigate } from 'react-router-dom';
+import api from '../../../services/api';
+import Auth from '../../../services/auth';
 
+const SignIn = () => {
 
-class SignIn extends React.Component {
+  let navigate = useNavigate();
 
-  handleSignIn = async (event) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [mostraAlerta, setMostraAlerta] = useState(false);
+  const [mensagemAlerta, setMensagemAlerta] = useState('');
+  const [severity, setSeverity] = useState('info');
+
+  const handleSignIn = async (event) => {
+
     event.preventDefault();
+
+    if(!email || !password){
+
+      setMostraAlerta(true);
+      setMensagemAlerta("Favor preencher todos os campos para se logar");
+      setSeverity("warning");
+
+    }else{
+
+      try {
+        
+       const response = await api.post('/accounts/login', {
+          email, password
+        })
+
+        console.log(response);
+
+        Auth.login(response.data.token)
+
+        navigate('/');
+
+      } catch (error) {
+
+        console.log(error);
+
+        setMostraAlerta(true);
+        setSeverity("error");
+        setMensagemAlerta(`Ocorreu um erro durante a tentativa de login: ${error}`);
+        
+      }
+
+    }
   }
-
-  render(){
     return(
-
-
+      <>
+      <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
+ 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -39,7 +82,7 @@ class SignIn extends React.Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={this.handleSignIn} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSignIn} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -49,6 +92,7 @@ class SignIn extends React.Component {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={event => setEmail(event.target.value)}
             />
             <TextField
               margin="normal"
@@ -59,6 +103,7 @@ class SignIn extends React.Component {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={event => setPassword(event.target.value)}
             />
             <Button
               type="submit"
@@ -83,13 +128,8 @@ class SignIn extends React.Component {
           </Box>
         </Box>       
       </Container>
-
-
-
-
+      </>
     )
   }
 
-}
-
-export default SignIn
+export default SignIn;
