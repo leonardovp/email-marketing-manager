@@ -12,7 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import Alert from '../__Common__/alert';
 import {Link as RouterLink, useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
 
@@ -34,11 +33,11 @@ const SignUp = ({mostraMensagem}) => {
       mostraMensagem(true, "warning", "Informe todos os campos para se cadastrar");
 
     }else{
-      try {
+      try {    
 	  
-	    /*await api.post('accounts', {
-          name, email, domain, password
-        });*/  
+        await api.post('accounts', {
+            name, email, domain, password
+        });
     
         mostraMensagem(true, "success", "Cadastro realizado com sucesso!");
         navigate('/signin');

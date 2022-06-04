@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom'
 import SignIn from './pages/public/SignIn'
 import SignUp from './pages/public/SignUp'
-import Display from './pages/public/__Common__/display'
 import Alert from './pages/public/__Common__/alert';
 
 function Home(){
@@ -140,8 +139,7 @@ export default function Rotas(){
         <Route path='contacts/*' element={<Contacts />} />
         <Route path='messages/*' element={<Messages />} />
         <Route path='signin' element={<SignIn mostraMensagem={handleMostraMensagem} />} />
-        <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />
-        <Route path='display' element={<Display />} />
+        <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />       
       </Routes>
       </BrowserRouter>
     </>

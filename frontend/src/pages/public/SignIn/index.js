@@ -10,15 +10,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import Alert from '../__Common__/alert';
 import {Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../../../services/api';
 import Auth from '../../../services/auth';
 
 const SignIn = ({mostraMensagem}) => {
-
-  // pega os parametros da URL
-  const [searchParams] = useSearchParams();
 
   let navigate = useNavigate();
 
@@ -39,9 +35,7 @@ const SignIn = ({mostraMensagem}) => {
         
        const response = await api.post('/accounts/login', {
           email, password
-        })
-
-        console.log(response);
+        })       
 
         Auth.login(response.data.token)
 
@@ -49,8 +43,7 @@ const SignIn = ({mostraMensagem}) => {
 
       } catch (error) {
 
-        console.log(error);
-
+        console.log("error");
         mostraMensagem(true, "error", `Ocorreu um erro durante a tentativa de login: ${error}`);
       
       }
