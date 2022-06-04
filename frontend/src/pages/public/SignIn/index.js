@@ -11,20 +11,19 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import Alert from '../__Common__/alert';
-import {Link as RouterLink, useNavigate } from 'react-router-dom';
+import {Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../../../services/api';
 import Auth from '../../../services/auth';
 
-const SignIn = () => {
+const SignIn = ({mostraMensagem}) => {
+
+  // pega os parametros da URL
+  const [searchParams] = useSearchParams();
 
   let navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [mostraAlerta, setMostraAlerta] = useState(false);
-  const [mensagemAlerta, setMensagemAlerta] = useState('');
-  const [severity, setSeverity] = useState('info');
 
   const handleSignIn = async (event) => {
 
@@ -32,9 +31,7 @@ const SignIn = () => {
 
     if(!email || !password){
 
-      setMostraAlerta(true);
-      setMensagemAlerta("Favor preencher todos os campos para se logar");
-      setSeverity("warning");
+      mostraMensagem(true, "warning", "Favor preencher todos os campos para se logar");
 
     }else{
 
@@ -54,18 +51,14 @@ const SignIn = () => {
 
         console.log(error);
 
-        setMostraAlerta(true);
-        setSeverity("error");
-        setMensagemAlerta(`Ocorreu um erro durante a tentativa de login: ${error}`);
-        
+        mostraMensagem(true, "error", `Ocorreu um erro durante a tentativa de login: ${error}`);
+      
       }
 
     }
   }
     return(
-      <>
-      <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
- 
+      <> 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -9,6 +9,7 @@ import {
 import SignIn from './pages/public/SignIn'
 import SignUp from './pages/public/SignUp'
 import Display from './pages/public/__Common__/display'
+import Alert from './pages/public/__Common__/alert';
 
 function Home(){
   return(
@@ -115,18 +116,35 @@ function Menu() {
 }
 
 export default function Rotas(){
+
+  const [mostraAlerta, setMostraAlerta] = useState(false);
+  const [severity, setSeverity] = useState("info");
+  const [mensagemAlerta, setMensagemAlerta] = useState('');
+
+  function handleMostraMensagem(mostraAlerta, severity, mensagemAlerta){
+
+      setMostraAlerta(mostraAlerta);
+      setSeverity(severity);
+      setMensagemAlerta(mensagemAlerta);
+     
+  }
+
+
   return(
+    <>
+      <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
+ 
       <BrowserRouter>
       <Routes>     
         <Route index element={<Home />} />
         <Route path='contacts/*' element={<Contacts />} />
         <Route path='messages/*' element={<Messages />} />
-        <Route path='signin' element={<SignIn />} />
-        <Route path='signup' element={<SignUp />} />
+        <Route path='signin' element={<SignIn mostraMensagem={handleMostraMensagem} />} />
+        <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />
         <Route path='display' element={<Display />} />
       </Routes>
       </BrowserRouter>
-    
+    </>
  
   )
 }

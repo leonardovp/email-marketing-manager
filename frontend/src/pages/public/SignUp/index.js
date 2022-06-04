@@ -16,7 +16,7 @@ import Alert from '../__Common__/alert';
 import {Link as RouterLink, useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
 
-const SignUp = () => {
+const SignUp = ({mostraMensagem}) => {
 
   let navigate = useNavigate();
 
@@ -25,34 +25,27 @@ const SignUp = () => {
   const [domain, setDomain] = useState('');
   const [password, setPassword] = useState('');
 
-  const [mostraAlerta, setMostraAlerta] = useState(false);
-  const [mensagemAlerta, setMensagemAlerta] = useState('');
-  const [severity, setSeverity] = useState('info');
-
   const handleSignUp = async (event) => { 
    
     event.preventDefault(); 
 
     if(!name || !email || !domain || !password){
 
-      setMostraAlerta(true);
-      setSeverity("warning");
-      setMensagemAlerta('Informe todos os campos para se cadastrar');  
+      mostraMensagem(true, "warning", "Informe todos os campos para se cadastrar");
 
     }else{
       try {
 	  
 	    /*await api.post('accounts', {
           name, email, domain, password
-        });*/
-       
-         navigate('/signin');
+        });*/  
+    
+        mostraMensagem(true, "success", "Cadastro realizado com sucesso!");
+        navigate('/signin');
 
       } catch (error) {
-        
-        setMostraAlerta(true);
-        setSeverity("error");
-        setMensagemAlerta(`Erro de cadastro: ${error}`);
+
+        mostraMensagem(true, "error", `Erro de cadastro: ${error}`);     
 
       }
 
@@ -60,10 +53,7 @@ const SignUp = () => {
   }
 
   return(  
-    <>
-   <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
- 
-   
+    <>   
     <Container component="main" maxWidth="xs">    
     <CssBaseline />   
     <Box
