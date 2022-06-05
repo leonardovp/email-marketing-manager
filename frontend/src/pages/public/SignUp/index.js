@@ -14,19 +14,26 @@ import Container from '@mui/material/Container';
 
 import {Link as RouterLink, useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
+import { useForm } from 'react-hook-form'
+import { style } from '@mui/system';
 
 const SignUp = ({mostraMensagem}) => {
 
   let navigate = useNavigate();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [domain, setDomain] = useState('');
-  const [password, setPassword] = useState('');
+  const valoresIniciais = {
+    name: ''
+  }
 
-  const handleSignUp = async (event) => { 
-   
-    event.preventDefault(); 
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: valoresIniciais
+  });
+
+  const onSubmit = async (data) => { 
+
+    //event.preventDefault();   
+    
+    const  {name, email, domain, password} = data;  
 
     if(!name || !email || !domain || !password){
 
@@ -36,7 +43,7 @@ const SignUp = ({mostraMensagem}) => {
       try {    
 	  
         await api.post('accounts', {
-            name, email, domain, password
+          name, email, domain, password
         });
     
         mostraMensagem(true, "success", "Cadastro realizado com sucesso!");
@@ -69,19 +76,23 @@ const SignUp = ({mostraMensagem}) => {
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 3 }}>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
+            <TextField              
               autoComplete="name"
-              name="name"
+              {...register("name", { required: true })}
               required
               fullWidth
               id="name"
               label="Name"
               autoFocus
-              onChange={event => setName(event.target.value)}                   
+              helperText={errors.name && "campo obrigatório"}   
+              error={errors.name != undefined} 
+                
             />
+          
+            
           </Grid>        
           <Grid item xs={12}>
             <TextField
@@ -89,9 +100,8 @@ const SignUp = ({mostraMensagem}) => {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
-              autoComplete="email"
-              onChange={event => setEmail(event.target.value)}             
+              {...register("email", { required: true })}
+              autoComplete="email"                          
             />
           </Grid>
           <Grid item xs={12}>
@@ -100,21 +110,19 @@ const SignUp = ({mostraMensagem}) => {
               fullWidth
               id="domain"
               label="Domain Name"
-              name="domain"
-              autoComplete="domain"
-              onChange={event => setDomain(event.target.value)}               
+              {...register("domain", { required: true })}
+              autoComplete="domain"                           
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               required
               fullWidth
-              name="password"
+              {...register("password", { required: true })}
               label="Password"
               type="password"
               id="password"
-              autoComplete="new-password"
-              onChange={event => setPassword(event.target.value)}               
+              autoComplete="new-password"                           
             />
           </Grid>
           <Grid item xs={12}>
