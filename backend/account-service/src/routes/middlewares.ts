@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import Joi from "joi";
 import {accountSchema, loginSchema, accountUpdateSchema} from '../models/accountSchemas';
 import middlewareCommon from 'ms-commons/api/routes/middlewares';
 

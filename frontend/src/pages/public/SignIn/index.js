@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-import {Link as RouterLink, useNavigate, useSearchParams } from 'react-router-dom';
+import {Link as RouterLink, useNavigate } from 'react-router-dom';
 import api from '../../../services/api';
 import Auth from '../../../services/auth';
 
@@ -39,7 +39,7 @@ const SignIn = ({mostraMensagem}) => {
 
         Auth.login(response.data.token)
 
-        navigate('/');
+        navigate('/dashboard');
 
       } catch (error) {
 

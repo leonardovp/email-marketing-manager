@@ -9,6 +9,7 @@ import {
 import SignIn from './pages/public/SignIn'
 import SignUp from './pages/public/SignUp'
 import Alert from './pages/public/__Common__/alert';
+import Dashboard from './pages/secure/Dashboard/Dashboard';
 
 function Home(){
   return(
@@ -139,7 +140,8 @@ export default function Rotas(){
         <Route path='contacts/*' element={<Contacts />} />
         <Route path='messages/*' element={<Messages />} />
         <Route path='signin' element={<SignIn mostraMensagem={handleMostraMensagem} />} />
-        <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />       
+        <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />  
+        <Route path='dashboard' element={<Dashboard />} />      
       </Routes>
       </BrowserRouter>
     </>
