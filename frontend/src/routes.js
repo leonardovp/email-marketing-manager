@@ -134,7 +134,7 @@ export default function Rotas(){
     <>
       <Alert mostraAlerta={mostraAlerta} mensagemAlerta={mensagemAlerta} severity={severity} setMostraAlerta={setMostraAlerta}/>
  
-      <BrowserRouter>
+     
       <Routes>     
         <Route index element={<Home />} />
         <Route path='contacts/*' element={<Contacts />} />
@@ -143,7 +143,7 @@ export default function Rotas(){
         <Route path='signup' element={<SignUp mostraMensagem={handleMostraMensagem} />} />  
         <Route path='dashboard' element={<Dashboard />} />      
       </Routes>
-      </BrowserRouter>
+     
     </>
  
   )

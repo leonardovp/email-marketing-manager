@@ -9,6 +9,7 @@ const login = (token) => {
 }
 
 const logout = () => {
+    
     localStorage.removeItem(TOKEN_KEY);
 }
 
