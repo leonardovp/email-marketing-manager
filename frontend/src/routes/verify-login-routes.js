@@ -1,12 +1,10 @@
 import * as React from 'react';
 import {
-    Route, useNavigate, Navigate, Outlet 
+    Navigate, Outlet 
   } from "react-router-dom";
 import Auth from "../services/auth";
 
 const VerifyRoutes = () => {
-
-    let navigate = useNavigate();
 
     return(
 
