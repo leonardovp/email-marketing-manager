@@ -18,6 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MainListItems from './listItems';
 import Chart from './Chart';
 import Orders from './Orders';
+import ListAccounts from './ListAccounts';
 
 
 const drawerWidth = 240;
@@ -75,6 +76,7 @@ function DashboardContent() {
   };
 
   return (
+    <React.Fragment>
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>       
  
@@ -125,10 +127,10 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               
-              {/* Recent Orders */}
+              {/* Accounts */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <ListAccounts />
                 </Paper>
               </Grid>
             </Grid>            
@@ -136,6 +138,7 @@ function DashboardContent() {
         </Box>
       </Box>
     </ThemeProvider>
+    </React.Fragment>
   );
 }
 
