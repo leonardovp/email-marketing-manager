@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 import {Link as RouterLink, useNavigate } from 'react-router-dom';
-import api from '../../../services/api';
 import { useForm } from 'react-hook-form'
+import AccountsService from '../../../services/accountService';
 
 
 const SignUp = ({mostraMensagem}) => {
@@ -39,10 +39,10 @@ const SignUp = ({mostraMensagem}) => {
 
     }else{
       try {    
+
+        const service = new AccountsService();
 	  
-        await api.post('accounts', {
-          name, email, domain, password
-        });
+        await service.signup({ name, email, domain, password });
     
         mostraMensagem(true, "success", "Cadastro realizado com sucesso!");
         navigate('/signin');

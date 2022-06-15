@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,10 +9,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-
 import {Link as RouterLink, useNavigate } from 'react-router-dom';
-import api from '../../../services/api';
 import Auth from '../../../services/auth';
+import AccountsService from '../../../services/accountService';
 
 const SignIn = ({mostraMensagem}) => {
 
@@ -32,10 +31,9 @@ const SignIn = ({mostraMensagem}) => {
     }else{
 
       try {
-        
-       const response = await api.post('/accounts/login', {
-          email, password
-        })       
+       const service = new AccountsService();     
+       
+       const response = await service.signin(email, password);       
 
         Auth.login(response.data.token)
 
@@ -43,7 +41,7 @@ const SignIn = ({mostraMensagem}) => {
 
       } catch (error) {
 
-        console.log("error");
+        console.log(error);
         mostraMensagem(true, "error", `Ocorreu um erro durante a tentativa de login: ${error}`);
       
       }
@@ -51,7 +49,7 @@ const SignIn = ({mostraMensagem}) => {
     }
   }
     return(
-      <> 
+      <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
